@@ -135,22 +135,6 @@ $(function () {
         //  */
         var getSupportedEvents = function () {
             switch (true) {
-                case support.pointer:
-                    events = {
-                        type: "pointer",
-                        start: "PointerDown",
-                        move: "PointerMove",
-                        end: "PointerUp",
-                        cancel: "PointerCancel",
-                        leave: "PointerLeave"
-                    };
-                    // добавление префиксов для IE10
-                    var ie10 = (window.navigator.msPointerEnabled && Function('/*@cc_on return document.documentMode===10@*/')());
-                    for (var value in events) {
-                        if (value === "type") continue;
-                        events[value] = (ie10) ? "MS" + events[value] : events[value].toLowerCase();
-                    }
-                    break;
                 case support.touch:
                     events = {
                         type: "touch",
