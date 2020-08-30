@@ -53,23 +53,23 @@ var swipe = function (el, settings) {
      */
     var getSupportedEvents = function () {
         switch (true) {
-            case support.pointer:
-                events = {
-                    type: "pointer",
-                    start: "PointerDown",
-                    move: "PointerMove",
-                    end: "PointerUp",
-                    cancel: "PointerCancel",
-                    leave: "PointerLeave"
-                };
-                // добавление префиксов для IE10
-                var ie10 = (window.navigator.msPointerEnabled && Function('/*@cc_on return document.documentMode===10@*/')());
-                for (var value in events) {
-                    if (value === "type") continue;
-                    events[value] = (ie10) ? "MS" + events[value] : events[value].toLowerCase();
-                }
-                break;
-            case support.touch:
+//             case support.pointer:
+//                 events = {
+//                     type: "pointer",
+//                     start: "PointerDown",
+//                     move: "PointerMove",
+//                     end: "PointerUp",
+//                     cancel: "PointerCancel",
+//                     leave: "PointerLeave"
+//                 };
+//                 // добавление префиксов для IE10
+//                 var ie10 = (window.navigator.msPointerEnabled && Function('/*@cc_on return document.documentMode===10@*/')());
+//                 for (var value in events) {
+//                     if (value === "type") continue;
+//                     events[value] = (ie10) ? "MS" + events[value] : events[value].toLowerCase();
+//                 }
+//                 break;
+           default:
                 events = {
                     type: "touch",
                     start: "touchstart",
@@ -78,15 +78,15 @@ var swipe = function (el, settings) {
                     cancel: "touchcancel"
                 };
                 break;
-            default:
-                events = {
-                    type: "mouse",
-                    start: "mousedown",
-                    move: "mousemove",
-                    end: "mouseup",
-                    leave: "mouseleave"
-                };
-                break;
+//             default:
+//                 events = {
+//                     type: "mouse",
+//                     start: "mousedown",
+//                     move: "mousemove",
+//                     end: "mouseup",
+//                     leave: "mouseleave"
+//                 };
+//                 break;
         }
         return events;
     };
