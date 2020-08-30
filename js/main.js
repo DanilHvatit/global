@@ -26,7 +26,7 @@ $(function () {
         swipe: false,
         asNavFor: '.home__slider__for',
         focusOnSelect: true,
-        centerMode: true,
+
 
 
     });
@@ -80,287 +80,8 @@ $(function () {
 
 
 
-    // элемент
-
-
-    // вызов функции swipe с предварительными настройками
-    swipe($('.main'), { maxTime: 1000, minTime: 100, maxDist: 150, minDist: 0 });
-
-    // обработка свайпов
-    $('.main').on("swipe", function () {
-        console.log(123);
-    });
-
-
-
-
-
-    // !======================================================================================================
-    function swipe(el, settings) {
-
-        // настройки по умолчанию
-        var settings = Object.assign({}, {
-            minDist: 0,
-            maxDist: 5,
-            maxTime: 700,
-            minTime: 50
-        }, settings);
-
-        // коррекция времени при ошибочных значениях
-        if (settings.maxTime < settings.minTime) settings.maxTime = settings.minTime + 500;
-        if (settings.maxTime < 100 || settings.minTime < 50) {
-            settings.maxTime = 700;
-            settings.minTime = 50;
-        }
-
-        var el = $('.main'),       // отслеживаемый элемент
-            dir,                  // направление свайпа (horizontal, vertical)
-            swipeType,            // тип свайпа (up, down, left, right)
-            dist,                 // дистанция, пройденная указателем
-            isMouse = false,      // поддержка мыши (не используется для тач-событий)
-            isMouseDown = false,  // указание на активное нажатие мыши (не используется для тач-событий)
-            startX = 0,           // начало координат по оси X (pageX)
-            distX = 0,            // дистанция, пройденная указателем по оси X
-            startY = 0,           // начало координат по оси Y (pageY)
-            distY = 0,            // дистанция, пройденная указателем по оси Y
-            startTime = 0,        // время начала касания
-            support = {           // поддерживаемые браузером типы событий
-                pointer: !!("PointerEvent" in window || ("msPointerEnabled" in window.navigator)),
-                touch: !!(typeof window.orientation !== "undefined" || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || "ontouchstart" in window || navigator.msMaxTouchPoints || "maxTouchPoints" in window.navigator > 1 || "msMaxTouchPoints" in window.navigator > 1)
-            };
-
-        /**
-        //  * Опредление доступных в браузере событий: pointer, touch и mouse.
-        //  * @returns {Object} - возвращает объект с доступными событиями.
-        //  */
-        var getSupportedEvents = function () {
-            switch (true) {
-                case support.touch:
-                    events = {
-                        type: "touch",
-                        start: "touchstart",
-                        move: "touchmove",
-                        end: "touchend",
-                        cancel: "touchcancel"
-                    };
-                    break;
-                default:
-                    events = {
-                        type: "mouse",
-                        start: "mousedown",
-                        move: "mousemove",
-                        end: "mouseup",
-                        leave: "mouseleave"
-                    };
-                    break;
-            }
-            return events;
-        };
-
-
-        // /**
-        //  * Объединение событий mouse/pointer и touch.
-        //  * @param e {Event} - принимает в качестве аргумента событие.
-        //  * @returns {TouchList|Event} - возвращает либо TouchList, либо оставляет событие без изменения.
-        //  */
-        var eventsUnify = function (e) {
-            return e.changedTouches ? e.changedTouches[0] : e;
-        };
-
-
-        //* Обрабочик начала касания указателем.
-        //* @param e {Event} - получает событие.
-
-        var checkStart = function (e) {
-            var event = eventsUnify(e);
-            if (support.touch && typeof e.touches !== "undefined" && e.touches.length !== 1) return; // игнорирование касания несколькими пальцами
-            dir = "none";
-            swipeType = "none";
-            dist = 0;
-            startX = event.pageX;
-            startY = event.pageY;
-            startTime = new Date().getTime();
-            if (isMouse) isMouseDown = true; // поддержка мыши
-            e.preventDefault();
-        };
-
-
-        // * Обработчик движения указателя.
-        //  * @param e {Event} - получает событие.
-
-        var checkMove = function (e) {
-            // if (isMouse && !isMouseDown) return; // выход из функции, если мышь перестала быть активна во время движения
-            var event = eventsUnify(e);
-            distX = event.pageX - startX;
-            distY = event.pageY - startY;
-            dir = (distY < 0) ? "up" : "down";
-            swipeType = dir;
-            e.preventDefault();
-        };
-
-
-        // * Обработчик окончания касания указателем.
-        //  @param e {Event} - получает событие.
-
-        var checkEnd = function (e) {
-            //  if (isMouse && !isMouseDown) { // выход из функции и сброс проверки нажатия мыши
-            //      mouseDown = false;
-            //      return;
-            //  }
-            var endTime = new Date().getTime();
-            var time = endTime - startTime;
-            // проверка времени жеста
-            if (Math.abs(distY) >= settings.minDist && Math.abs(distX) <= settings.maxDist) {
-                swipeType = dir; // опредление типа свайпа как "top" или "down"
-                console.log(swipeType);
-                //  console.log(distY);
-
-            } else if (Math.abs(distX) >= settings.minDist && Math.abs(distY) <= settings.maxDist) {
-                swipeType = dir; // опредление типа свайпа как "left" или "right"
-                console.log(swipeType);
-            }
-            distX = Math.abs(distX);//) опредление пройденной указателем дистанции
-            distY = Math.abs(distY);
-            console.log(distX + "x");
-            console.log(distY + "y");
-            // генерация кастомного события swipe
-            console.log(swipeType);
-            //  if (swipeType !== "none" && dist >= settings.minDist) {
-            //      var swipeEvent = new CustomEvent("swipe", {
-            //          bubbles: true,
-            //          cancelable: true,
-            //          detail: {
-            //              full: e, // полное событие Event
-            //              dir: swipeType, // направление свайпа
-            //              dist: dist, // дистанция свайпа
-            //              time: time // время, потраченное на свайп
-            //          }
-
-            //      });
-
-            //     //  el.dispatchEvent(swipeEvent);
-            //      console.log(111111);
-            
-
-            //  }
-            e.preventDefault();
-        }
-
-        // добавление поддерживаемых событий
-        var events = getSupportedEvents();
-
-        //! =========================================================
-        
-        var go = function () {
-            if (distY < 0) {
-                var name = $('section.is-active');
-                var out = 'is-active animated fadeOutUp slow fadeIn slower';
-                if (!$(name).hasClass('hire')) {
-                    $('section.is-active').addClass('animated fadeOutUp slow');
-                }
-                setTimeout(function () {
-                    if (!$(name).hasClass('hire')) {
-                        $(name).removeClass(out);
-                    };
-                }, 500);
-                if (!$(name).hasClass('hire')) {
-                    name.next().addClass('is-active animated fadeIn slower');
-                };
-                if ($(name).hasClass('contact') || $(name).hasClass('hire')) {
-                    $('.menu__btn').addClass('animated fadeOutUp slow');
-                    setTimeout(function () {
-                        $('.menu__btn').removeClass(out);
-                    }, 500);
-                } else {
-                    $('.menu__btn').addClass('is-active animated fadeIn slower');
-                }
-
-
-                var nav = $('li.nav-active');
-
-                setTimeout(function () {
-                    if (!$(name).hasClass('hire')) {
-                        $(nav).removeClass('nav-active');
-                    }
-                }, 40);
-
-                if (!$(name).hasClass('hire')) {
-                    $('li.nav-active').next().addClass('nav-active');
-                }
-            } else {
-                var name = $('section.is-active');
-                if (!$(name).hasClass('home')) {
-                    $('section.is-active').addClass('animated fadeOutUp slow');
-                }
-
-                setTimeout(function () {
-                    if (!$(name).hasClass('home')) {
-                        $(name).removeClass('is-active animated fadeOutUp slow fadeIn slower')
-                    };
-                }, 500);
-
-                if (!$(name).hasClass('home')) {
-                    $('section.is-active').prev().addClass('is-active animated fadeIn slower');
-                };
-
-                if ($(name).hasClass('works') || $(name).hasClass('home')) {
-                    $('.menu__btn').addClass('animated fadeOutUp slow');
-                    setTimeout(function () {
-                        $('.menu__btn').removeClass('is-active animated fadeIn slower fadeOutUp slow');
-                    }, 500);
-                } else {
-                    $('.menu__btn').addClass('is-active animated fadeIn slower');
-                }
-
-                var nav = $('li.nav-active');
-
-                setTimeout(function () {
-                    if (!$(name).hasClass('home')) {
-                        $(nav).removeClass('nav-active');
-                    }
-                }, 30);
-
-                if (!$(name).hasClass('home')) {
-                    $('li.nav-active').prev().addClass('nav-active');
-                }
-            }
-
-        }
-
-
-
-
-        //! =========================================================
-        // проверка наличия мыши
-        // if ((support.pointer && !support.touch) || events.type === "mouse") isMouse = true;
-
-        console.log(events.start);
-        console.log(events.move);
-        console.log(events.end);
-        console.log(swipeType);
-
-        // добавление обработчиков на элемент
-        el.on(events.end, go);
-        el.on(events.start, checkStart);
-        el.on(events.move, checkMove);
-        el.on(events.end, checkEnd);
-
-    };
 
     // !===============================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
     $('.menu__nav').on('click', function () {
         $('.outside__nav').addClass('is-active animated rotateInDownRight');
         $('.main').addClass('transform');
@@ -369,7 +90,6 @@ $(function () {
         });
         $('body').addClass('lock');
     });
-
     $('.wrapper').on('click', function () {
         $('.main').removeClass('transform');
         $('.outside__nav').removeClass('is-active animated rotateInDownRight');
@@ -380,7 +100,6 @@ $(function () {
 
 
     });
-
     $('.outside__nav a').on('click', function () {
         $('.main').removeClass('transform');
         $('.outside__nav').removeClass('is-active animated rotateInDownRight');
@@ -389,124 +108,59 @@ $(function () {
         });
         let now = $(this).attr('href').replace(/^#/, '.');
         $('section.is-active').removeClass('is-active animated fadeOutUp slow fadeIn slower');
-        $('.outside__nav li').removeClass('nav-active');
-        $('.left-nav li').removeClass('nav-active');
-        $('.left-nav a[href=\\' + $(this).attr('href') + ']').parent().addClass('nav-active');
-        $(this).parent().addClass('nav-active');
+        $('.outside__nav li').removeClass('active');
+        $('.left-nav li').removeClass('active');
+        $('.left-nav a[href=\\' + $(this).attr('href') + ']').parent().addClass('active');
+        $(this).parent().addClass('active');
         $(now).addClass('is-active animated fadeIn slower');
         $('body').removeClass('lock');
-
+        if (now != '.hire') {
+            $('.menu__btn').addClass('is-active');
+        } else {
+            $('.menu__btn').removeClass('is-active');
+        }
+        return false;
     });
-
-
     $('.left-nav a').on('click', function () {
         let now = $(this).attr('href').replace(/^#/, '.');
         $('section.is-active').removeClass('is-active animated fadeOutUp slow fadeIn slower');
-        $('.left-nav li').removeClass('nav-active');
-        $('.outside__nav li').removeClass('nav-active');
-        $('.outside__nav a[href=\\' + $(this).attr('href') + ']').parent().addClass('nav-active');
-        $(this).parent().addClass('nav-active');
+        $('.left-nav li').removeClass('active');
+        $('.outside__nav li').removeClass('active');
+        $('.outside__nav a[href=\\' + $(this).attr('href') + ']').parent().addClass('active');
+        $(this).parent().addClass('active');
         $(now).addClass('is-active animated fadeIn slower');
+        if (now != '.hire') {
+            $('.menu__btn').addClass('is-active');
+        } else {
+            $('.menu__btn').removeClass('is-active');
+        }
+        return false;
     });
-
-
-
     $('.menu__btn').on('click', function () {
         $('section.is-active').addClass('animated fadeOutUp slow');
         setTimeout(function () {
             $('section.is-active').removeClass('is-active animated fadeOutUp slow fadeIn slower');
             $('.hire').addClass('is-active animated fadeIn slower');
-        }
-
-            , 500);
-    });
-
-
-
-
-    // $('body').on('mousewheel DOMMouseScroll', function (e) {
-    //     $('body').trigger(scroll(e));
-    // });
-
-
-
-    $('body').on('mousewheel DOMMouseScroll', function scroll(x) {
+        }, 500);
+        $('.left-nav li').removeClass('active');
+        $('.outside__nav li').removeClass('active');
+        $('.left-nav a[href=\\' + '#hire' + ']').parent().addClass('active');
+        $('.outside__nav a[href=\\' + '#hire' + ']').parent().addClass('active');
+        $('.menu__btn').removeClass('is-active');
+        return false;
+    }); 
+    
+    $('.main').on('mousewheel DOMMouseScroll', function scroll(x) {
         if (typeof x.originalEvent.wheelDelta == 'number') {
+            
+             
             if (x.currentTarget.className === 'lock') {
             }
             else if (x.originalEvent.wheelDelta < 0) {
-                var name = $('section.is-active');
-                var out = 'is-active animated fadeOutUp slow fadeIn slower';
-                if (!$(name).hasClass('hire')) {
-                    $('section.is-active').addClass('animated fadeOutUp slow');
-                }
-                setTimeout(function () {
-                    if (!$(name).hasClass('hire')) {
-                        $(name).removeClass(out);
-                    };
-                }, 500);
-                if (!$(name).hasClass('hire')) {
-                    name.next().addClass('is-active animated fadeIn slower');
-                };
-                if ($(name).hasClass('contact') || $(name).hasClass('hire')) {
-                    $('.menu__btn').addClass('animated fadeOutUp slow');
-                    setTimeout(function () {
-                        $('.menu__btn').removeClass(out);
-                    }, 500);
-                } else {
-                    $('.menu__btn').addClass('is-active animated fadeIn slower');
-                }
-
-
-                var nav = $('li.nav-active');
-
-                setTimeout(function () {
-                    if (!$(name).hasClass('hire')) {
-                        $(nav).removeClass('nav-active');
-                    }
-                }, 40);
-
-                if (!$(name).hasClass('hire')) {
-                    $('li.nav-active').next().addClass('nav-active');
-                }
-
-
+                scrollUp();
             } else if (x.originalEvent.wheelDelta > 0) {
-                var name = $('section.is-active');
-                if (!$(name).hasClass('home')) {
-                    $('section.is-active').addClass('animated fadeOutUp slow');
-                }
-
-                setTimeout(function () {
-                    if (!$(name).hasClass('home')) {
-                        $(name).removeClass('is-active animated fadeOutUp slow fadeIn slower')
-                    };
-                }, 500);
-
-                if (!$(name).hasClass('home')) {
-                    $('section.is-active').prev().addClass('is-active animated fadeIn slower');
-                };
-
-                if ($(name).hasClass('works') || $(name).hasClass('home')) {
-                    $('.menu__btn').addClass('animated fadeOutUp slow');
-                    setTimeout(function () {
-                        $('.menu__btn').removeClass('is-active animated fadeIn slower fadeOutUp slow');
-                    }, 500);
-                } else {
-                    $('.menu__btn').addClass('is-active animated fadeIn slower');
-                }
-
-                var nav = $('li.nav-active');
-
-                setTimeout(function () {
-                    if (!$(name).hasClass('home')) {
-                        $(nav).removeClass('nav-active');
-                    }
-                }, 30);
-
-                if (!$(name).hasClass('home')) {
-                    $('li.nav-active').prev().addClass('nav-active');
-                }
+                scrollDown();
+                
 
             }
         }
@@ -516,4 +170,74 @@ $(function () {
 });
 
 
+var scrollUp = function () {
+    var section = $('section.is-active');
+    var eq = section.index(('section')) + 1;
+    var transitionEndEventName = "webkitTransitionEnd";
+    var done = false;
+    var out = 'is-active animated fadeOutUp slow fadeIn slower';
+    var transitionEnded = function () {
+        done = true;
+        section.removeClass(out);
+        section[0].removeEventListener(transitionEndEventName,
+            transitionEnded, false);
+    };
+    if (section.hasClass('is-active')) {
+        if (!section.hasClass('hire')) {
+            section.addClass('animated fadeOutUp slow');
+            section[0].addEventListener(transitionEndEventName,
+                transitionEnded, false);
+            setTimeout(function () {
+                if (!done) {
+                    transitionEnded();
+                }
+            }, 510);
+            setTimeout(function () {
+                $(section).next().addClass('is-active animated fadeIn slower');
+            }, 400);
+            $('.left-nav').find('.nav').removeClass('active').eq(eq).addClass('active');
+            $('.outside__nav').find('.nav').removeClass('active').eq(eq).addClass('active');
+            $('.menu__btn').addClass('is-active');
+            if (section.next().hasClass('hire')) {
+                $('.menu__btn').removeClass('is-active');
+            } 
+        } 
+    }
+};
 
+var scrollDown = function () {
+    var section = $('section.is-active');
+    var eq = section.index(('section')) + 1;
+    var transitionEndEventName = "webkitTransitionEnd";
+    var done = false;
+    var out = 'is-active animated fadeOutUp slow fadeIn slower';
+    var transitionEnded = function () {
+        done = true;
+        section.removeClass(out);
+        section[0].removeEventListener(transitionEndEventName,
+            transitionEnded, false);
+    };
+    if (section.hasClass('is-active')) {
+        eq = eq - 1;
+        if (eq >= 1) {
+            section.addClass('animated fadeOutUp slow');
+            section[0].addEventListener(transitionEndEventName,
+                transitionEnded, false);
+            setTimeout(function () {
+                if (!done) {
+                    transitionEnded();
+                }
+            }, 510);
+            setTimeout(function () {
+                $(section).prev().addClass('is-active animated fadeIn slower');
+            }, 400);
+            $('.left-nav').find('.nav').removeClass('active').eq(eq - 1).addClass('active');
+            $('.outside__nav').find('.nav').removeClass('active').eq(eq - 1).addClass('active');
+        }
+        if (!section.prev().hasClass('home')) {
+            $('.menu__btn').addClass('is-active');
+        } else {
+            $('.menu__btn').removeClass('is-active');
+        }
+    }
+}

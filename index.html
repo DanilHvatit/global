@@ -8,12 +8,13 @@
     <link
         href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,700|Montserrat:300,400,500,600,700,900&display=swap"
         rel="stylesheet">
+    <link rel="icon" href="image/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/animate.css">
     <link rel="stylesheet" href="css/slick.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/media.css">
+    <link rel="stylesheet" href="css/media.css"> 
 </head>
 
 <body>
@@ -27,18 +28,18 @@
                 <div class="menu__logo">
                     <img src="image/logo.png" alt="logo">
                 </div>
-                <a href="#hire__form" class="menu__btn">hire us</a>
+                <a class="menu__btn">hire us</a>
                 <div class="menu__nav">
 
                 </div>
             </header>
             <nav class="left-nav">
                 <ul>
-                    <li class="nav-active"><a href="#home">Home</a></li>
-                    <li><a href="#works">Works</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#hire">Hire us</a></li>
+                    <li class="nav active"><a href="#home">Home</a></li>
+                    <li class="nav"><a href="#works">Works</a></li>
+                    <li class="nav"><a href="#about">About</a></li>
+                    <li class="nav"><a href="#contact">Contact</a></li>
+                    <li class="nav"><a href="#hire">Hire us</a></li>
                 </ul>
             </nav>
         </div>
@@ -51,21 +52,21 @@
                         <div class="home__slider__for-title">Your next
                             interactive
                             experience</div>
-                        <button class="home__slider__for-btn">hire us</button>
+                        <button class="home__slider__for-btn menu__btn">hire us</button>
 
                     </div>
                     <div class="home__slider__for-item">
                         <div class="home__slider__for-title">Your next
                             interactive
                             experience</div>
-                        <button class="home__slider__for-btn">hire us</button>
+                        <button class="home__slider__for-btn menu__btn">hire us</button>
                         <div class="home__slider__for-img"><img src="image/home-img02.png" alt="cosmonaut"></div>
                     </div>
                     <div class="home__slider__for-item">
                         <div class="home__slider__for-title">Your next
                             interactive
                             experience</div>
-                        <button class="home__slider__for-btn">hire us</button>
+                        <button class="home__slider__for-btn menu__btn">hire us</button>
                         <div class="home__slider__for-img"><img src="image/home-img03.png" alt="cosmonaut"></div>
                     </div>
                 </div>
@@ -169,7 +170,7 @@
                     You want us to do
                 </div>
 
-                <form id="hire__form" action="" class="hire__form">
+                <form id="hire__form" action="#" class="hire__form">
                     <div class="hire__form-option">
                         <div class="hire__row">
                             <input id="option-1" type="checkbox">
@@ -179,8 +180,8 @@
                             <input id="option-2" type="checkbox">
                             <label for="option-2">Graphic Design</label>
 
-                            <input id="option-3" type="checkbox">
-                            <label for="option-3">Motion Design</label>
+                            <input id="option-3" type="checkbox" data-da="hire__row3,-1,500">
+                            <label for="option-3" data-da="hire__row3,-1,501">Motion Design</label>
                         </div>
 
 
@@ -196,9 +197,6 @@
                             <label for="option-6">Marketing</label>
                         </div>
 
-                        <!-- <div class="option-break"></div>
-                       
-                        <div class="option-break"></div> -->
 
 
                     </div>
@@ -214,17 +212,19 @@
 
     <nav class="outside__nav">
         <ul>
-            <li class="nav-active"><a href="#home">Home</a></li>
-            <li><a href="#works">Works</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="#hire">Hire us</a></li>
+            <li class="nav active"><a href="#home">Home</a></li>
+            <li class="nav"><a href="#works">Works</a></li>
+            <li class="nav"><a href="#about">About</a></li>
+            <li class="nav"><a href="#contact">Contact</a></li>
+            <li class="nav"><a href="#hire">Hire us</a></li>
         </ul>
     </nav>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/jquery.viewportchecker.min.js"></script>
     <script src="js/slick.min.js"></script>
+    <script src="js/dynamic_adapt-master.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/swipe.js"></script>
 </body>
 
 </html>

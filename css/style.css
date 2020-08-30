@@ -10,6 +10,11 @@ body {
   padding: 0px;
 }
 
+a {
+  cursor: pointer;
+  outline: none !important;
+}
+
 body {
   background: #000000;
   font-size: 14px;
@@ -212,6 +217,9 @@ body.lock {
   -webkit-transition-duration: 0.5s;
        -o-transition-duration: 0.5s;
           transition-duration: 0.5s;
+  line-height: normal;
+  opacity: 1;
+  visibility: visible;
 }
 
 .home__slider__for-btn::after {
@@ -231,7 +239,8 @@ body.lock {
 
 .home__slider__nav-item {
   max-width: 300px;
-  padding-right: 50px;
+  padding: 0px 50px 0px 0px;
+  cursor: pointer;
 }
 
 .home__slider__nav-item.slick-current {
@@ -649,7 +658,7 @@ body.lock {
   font-family: "icomoon";
   position: absolute;
   font-size: 12px;
-  left: 25px;
+  left: 10px;
   visibility: hidden;
   padding-right: 5px;
 }
@@ -661,7 +670,7 @@ body.lock {
 .hire__form input[type="checkbox"]:checked + label {
   background: #0f33ff;
   border-color: #0f33ff;
-  padding: 11px 30px 11px 50px;
+  padding: 11px 0px 11px 25px;
 }
 
 .hire__form input[type="checkbox"]:checked + label::before {
@@ -734,17 +743,17 @@ body.lock {
       flex-basis: 100%;
 }
 
-.left-nav .nav-active {
+.left-nav .nav.active {
   list-style-type: none !important;
   color: #ffffff;
 }
 
-.left-nav .nav-active a {
+.left-nav .nav.active a {
   color: #ffffff;
   margin-left: -60px;
 }
 
-.left-nav .nav-active a::before {
+.left-nav .nav.active a::before {
   position: absolute;
   content: "";
   height: 5px;
@@ -768,7 +777,7 @@ body.lock {
   visibility: hidden;
 }
 
-.outside__nav .nav-active {
+.outside__nav .nav.active {
   border-bottom: 15px solid #0f33ff;
 }
 
